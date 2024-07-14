@@ -1,1 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VBA to Python Converter</title>
+    <style>
+        /* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+}
 
+h1, h2 {
+    color: #333;
+}
+
+form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.flex-item {
+    flex: 1;
+    min-width: 300px;
+}
+
+pre {
+    background: #e8e8e8;
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 400px;
+}
+
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        label, textarea, input { display: block; margin: 10px 0; }
+        textarea { width: 100%; height: 200px; }
+        input[type="submit"] { padding: 10px 20px; }
+    </style>
+</head>
+<body>
+    <h1>VBA to Python Converter</h1>
+    <form id="converterForm">
+        <label for="macroName">Macro Name:</label>
+        <input type="text" id="macroName" name="macroName" required>
+        
+        <label for="vbaCode">VBA Code:</label>
+        <textarea id="vbaCode" name="vbaCode" required></textarea>
+        
+        <input type="submit" value="Convert to Python">
+    </form>
+
+    <h2>Python Code:</h2>
+    <pre id="pythonCode"></pre>
+
+    <script>
+        document.getElementById('converterForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const macroName = document.getElementById('macroName').value;
+            const vbaCode = document.getElementById('vbaCode').value;
+
+            fetch('/convert', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ macroName, vbaCode }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('pythonCode').textContent = data.pythonCode;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
